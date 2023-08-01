@@ -12,6 +12,8 @@ extension Polygon.LinearRing {
 // for internal use only; GeoJSON encoding & decoding helpers
 extension Polygon: CodableGeometry {
     static let geoJSONType = GeoJSONType.polygon
+    
+    public static var isValidationOn: Bool = true
 
     var coordinates: [[[Double]]] {
         let allRings = [exterior] + holes
@@ -20,8 +22,10 @@ extension Polygon: CodableGeometry {
 
     init(coordinates: [[[Double]]]) throws {
         let rings = try coordinates.map(LinearRing.init)
-        guard rings.count >= 1 else {
-            throw GEOSwiftError.tooFewRings
+        if Self.isValidationOn {
+            guard rings.count >= 1 else {
+                throw GEOSwiftError.tooFewRings
+            }
         }
         self.init(exterior: rings[0], holes: Array(rings[1..<rings.count]))
     }

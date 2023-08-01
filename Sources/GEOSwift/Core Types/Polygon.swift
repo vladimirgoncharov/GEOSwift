@@ -8,14 +8,18 @@ public struct Polygon: Hashable, Sendable {
     }
 
     public struct LinearRing: Hashable, Sendable {
+        public static var isValidationOn: Bool = true
+        
         public let points: [Point]
 
         public init(points: [Point]) throws {
-            guard points.count >= 4 else {
-                throw GEOSwiftError.tooFewPoints
-            }
-            guard points.first == points.last else {
-                throw GEOSwiftError.ringNotClosed
+            if Self.isValidationOn {
+                guard points.count >= 4 else {
+                    throw GEOSwiftError.tooFewPoints
+                }
+                guard points.first == points.last else {
+                    throw GEOSwiftError.ringNotClosed
+                }
             }
             self.points = points
         }

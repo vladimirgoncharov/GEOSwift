@@ -1,4 +1,6 @@
 public struct LineString: Hashable, Sendable {
+    public static var isValidationOn: Bool = true
+    
     public let points: [Point]
 
     public var firstPoint: Point {
@@ -10,8 +12,10 @@ public struct LineString: Hashable, Sendable {
     }
 
     public init(points: [Point]) throws {
-        guard points.count >= 2 else {
-            throw GEOSwiftError.tooFewPoints
+        if Self.isValidationOn {
+            guard points.count >= 2 else {
+                throw GEOSwiftError.tooFewPoints
+            }
         }
         self.points = points
     }

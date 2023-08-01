@@ -10,6 +10,7 @@ extension Point: GEOSObjectInitializable {
         guard isEmpty != 2 else {
             throw GEOSError.libraryError(errorMessages: geosObject.context.errors)
         }
+        
         // returns 0 on false (non-empty)
         guard isEmpty == 0 else {
             throw GEOSwiftError.tooFewPoints
